@@ -14,19 +14,6 @@ var {
 var flattenStyle = React.StyleSheet.flatten;
 var PropTypes = React.PropTypes;
 
-//var React = require('react-native');
-//var StyleSheetRegistry = require('StyleSheetRegistry');
-//var PropTypes = React.PropTypes;
-//var flattenStyle = require('flattenStyle');
-
-//var {
-//  StyleSheet,
-//  Image,
-//  Text,
-//  View,
-//  TouchableHighlight
-//} = React;
-
 var CheckBox = React.createClass({
   propTypes: {
     label: PropTypes.string,
