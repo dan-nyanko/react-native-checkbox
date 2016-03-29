@@ -1,6 +1,4 @@
 'use strict';
-
-
 var React = require('react-native');
 var {
     StyleSheetRegistry,
@@ -22,8 +20,10 @@ var CheckBox = React.createClass({
     checkImage: React.Image.propTypes.source,
     style: React.View.propTypes.style,
     labelStyle: React.Text.propTypes.style,
+    labelContainerStyle: React.View.propTypes.style,
     containerStyle: React.View.propTypes.style,
     labelBefore: PropTypes.bool,
+    children: React.PropTypes.element
   },
 
   getDefaultProps() {
@@ -50,7 +50,7 @@ var CheckBox = React.createClass({
         imageHeight = checkboxStyles.height - 2*checkboxStyles.borderWidth,
         checkbox = (
           <View style={[styles.checkbox, this.props.style]}>
-            {this.props.checked ? <Image 
+            {this.props.checked ? <Image
                                     source={checkImageSource}
                                     resizeMode="stretch"
                                     style={{
@@ -62,13 +62,19 @@ var CheckBox = React.createClass({
           </View>
         ),
         labelContainer;
-        
+
     if (this.props.label) {
       labelContainer = (
-        <View style={styles.labelContainer}>
+        <View style={[styles.labelContainer, this.props.labelContainerStyle]}>
           <Text style={[styles.label, this.props.labelStyle]}>{this.props.label}</Text>
         </View>
       );
+    } else if (this.props.children) {
+      labelContainer = (
+        <View style={[styles.labelContainer, this.props.labelContainerStyle]}>
+          {this.props.children}
+        </View>
+      )
     } else {
       labelContainer = null;
     }
