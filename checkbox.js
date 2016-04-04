@@ -6,7 +6,8 @@ var {
     Image,
     Text,
     View,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableWithoutFeedback
 } = React;
 
 var flattenStyle = React.StyleSheet.flatten;
@@ -23,14 +24,16 @@ var CheckBox = React.createClass({
     labelContainerStyle: React.View.propTypes.style,
     containerStyle: React.View.propTypes.style,
     labelBefore: PropTypes.bool,
-    children: React.PropTypes.element
+    children: React.PropTypes.element,
+    highlight: React.bool
   },
 
   getDefaultProps() {
     return {
       label: null,
       labelBefore: false,
-      checked: false
+      checked: false,
+      highlight: true
     }
   },
 
@@ -100,11 +103,19 @@ var CheckBox = React.createClass({
       );
     }
 
-    return (
-      <TouchableHighlight onPress={this.onChange} underlayColor='white'>
-        {container}
-      </TouchableHighlight>
-    )
+    if (this.props.highlight) {
+      return (
+        <TouchableHighlight onPress={this.onChange} underlayColor='white'>
+          {container}
+        </TouchableHighlight>
+      );
+    } else {
+      return (
+        <TouchableWithoutFeedback onPress={this.onChange}>
+          {container}
+        </TouchableWithoutFeedback>
+      );
+    }
   }
 });
 
