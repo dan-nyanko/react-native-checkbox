@@ -25,7 +25,7 @@ var CheckBox = React.createClass({
     containerStyle: React.View.propTypes.style,
     labelBefore: PropTypes.bool,
     children: React.PropTypes.element,
-    highlight: React.bool
+    highlight: PropTypes.bool
   },
 
   getDefaultProps() {
