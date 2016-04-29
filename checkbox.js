@@ -44,28 +44,27 @@ var CheckBox = React.createClass({
   },
 
   render() {
-    var checkImageSource = this.props.checkImage || require('./check.png'),
-        checkboxStyles = flattenStyle([
-          styles.checkbox,
-          this.props.style,
-        ]),
-        imageWidth = checkboxStyles.width - 2*checkboxStyles.borderWidth,
-        imageHeight = checkboxStyles.height - 2*checkboxStyles.borderWidth,
-        checkbox = (
-          <View style={[styles.checkbox, this.props.style]}>
-            {this.props.checked ? <Image
-                                    source={checkImageSource}
-                                    resizeMode="stretch"
-                                    style={{
-                                      width: imageWidth,
-                                      height: imageHeight,
-                                    }}
-                                  />
-                                : null}
-          </View>
-        ),
-        labelContainer;
-
+    var checkboxStyles = flattenStyle([
+      styles.checkbox,
+      this.props.style,
+    ]);
+    var imageWidth = checkboxStyles.width - 2*checkboxStyles.borderWidth;
+    var imageHeight = checkboxStyles.height - 2*checkboxStyles.borderWidth;
+    var defaultCheckImageComponent = (<Image
+        source={require('./check.png')}
+        resizeMode="stretch"
+        style={{
+          width: imageWidth,
+          height: imageHeight,
+        }}
+      />);
+    var checkImageComponent = this.props.checkImage || defaultCheckImageComponent;
+    var labelContainer;
+    var checkbox = (
+        <View style={[styles.checkbox, this.props.style]}>
+          {this.props.checked ? checkImageComponent : null}
+        </View>
+    );
     if (this.props.label) {
       labelContainer = (
         <View style={[styles.labelContainer, this.props.labelContainerStyle]}>
