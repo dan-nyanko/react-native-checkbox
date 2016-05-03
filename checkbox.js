@@ -18,8 +18,8 @@ var CheckBox = React.createClass({
     label: PropTypes.string,
     checked: PropTypes.bool.isRequired,
     onChange: PropTypes.func,
-    checkImage: React.Image.propTypes.source,
-    style: React.View.propTypes.style,
+    uncheckedComponent: React.PropTypes.object,
+    checkedComponent: React.PropTypes.object,
     labelStyle: React.Text.propTypes.style,
     labelContainerStyle: React.View.propTypes.style,
     containerStyle: React.View.propTypes.style,
@@ -44,27 +44,21 @@ var CheckBox = React.createClass({
   },
 
   render() {
-    var checkboxStyles = flattenStyle([
-      styles.checkbox,
-      this.props.style,
-    ]);
-    var imageWidth = checkboxStyles.width - 2*checkboxStyles.borderWidth;
-    var imageHeight = checkboxStyles.height - 2*checkboxStyles.borderWidth;
-    var defaultCheckImageComponent = (<Image
-        source={require('./check.png')}
-        resizeMode="stretch"
-        style={{
-          width: imageWidth,
-          height: imageHeight,
-        }}
-      />);
-    var checkImageComponent = this.props.checkImage || defaultCheckImageComponent;
+    if (!this.props.uncheckedComponent) {
+      throw new Error('CheckBox requires a property for checkedComponent')
+    }
+    if (!this.props.checkedComponent) {
+      throw new Error('CheckBox requires a property for uncheckedComponent')
+    }
+
+    var checkbox;
+    if (this.props.checked) {
+      checkbox = this.props.checkedComponent;
+    } else {
+      checkbox = this.props.uncheckedComponent;
+    }
+
     var labelContainer;
-    var checkbox = (
-        <View style={[styles.checkbox, this.props.style]}>
-          {this.props.checked ? checkImageComponent : null}
-        </View>
-    );
     if (this.props.label) {
       labelContainer = (
         <View style={[styles.labelContainer, this.props.labelContainerStyle]}>
@@ -118,21 +112,11 @@ var CheckBox = React.createClass({
   }
 });
 
-var defaultCheckboxBorderWidth = 2,
-    defaultCheckboxWidth = 26;
-
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
-  },
-  checkbox: {
-    width: defaultCheckboxWidth,
-    height: defaultCheckboxWidth,
-    borderWidth: defaultCheckboxBorderWidth,
-    borderRadius: 4,
-    borderColor: 'black',
   },
   labelContainer: {
     marginLeft: 10,
